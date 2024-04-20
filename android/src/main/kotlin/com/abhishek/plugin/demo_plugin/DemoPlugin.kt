@@ -22,8 +22,8 @@ class DemoPlugin: FlutterPlugin, MethodCallHandler {
   }
 
   override fun onMethodCall(call: MethodCall, result: Result) {
-    if (call.method == "getPlatformVersion") {
-      result.success("Android ${android.os.Build.VERSION.RELEASE}")
+    if (call.method == "getName") {
+      result.success("Hi, My Name is $name")
     } else {
       result.notImplemented()
     }
@@ -31,5 +31,14 @@ class DemoPlugin: FlutterPlugin, MethodCallHandler {
 
   override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
+  }
+
+  companion object {
+
+
+    var name: String = "Unknown"
+    fun setToastName(s: String) {
+      name = s
+    }
   }
 }

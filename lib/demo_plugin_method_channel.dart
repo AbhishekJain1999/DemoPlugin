@@ -10,8 +10,8 @@ class MethodChannelDemoPlugin extends DemoPluginPlatform {
   final methodChannel = const MethodChannel('demo_plugin');
 
   @override
-  Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
+  Future<String?> getName() async {
+    final version = await methodChannel.invokeMethod<String>('getName');
     return version;
   }
 }

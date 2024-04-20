@@ -9,7 +9,7 @@ class MockDemoPluginPlatform
     implements DemoPluginPlatform {
 
   @override
-  Future<String?> getPlatformVersion() => Future.value('42');
+  Future<String?> getName() => Future.value('42');
 }
 
 void main() {
@@ -24,6 +24,6 @@ void main() {
     MockDemoPluginPlatform fakePlatform = MockDemoPluginPlatform();
     DemoPluginPlatform.instance = fakePlatform;
 
-    expect(await demoPlugin.getPlatformVersion(), '42');
+    expect(await demoPlugin.getName(), '42');
   });
 }
