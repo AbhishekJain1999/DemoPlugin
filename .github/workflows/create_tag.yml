@@ -52,7 +52,7 @@ jobs:
           # git push origin $NEW_TAG --follow-tags # Add --follow-tags for lightweight tags
           echo ${{ secrets.REPO_TOKEN }}
           # Use the secret for authentication
-          git push origin https://${{ secrets.REPO_TOKEN }}@github.com/AbhishekJain1999/DemoPlugin.git HEAD:refs/tags/$NEW_TAG
+          git push https://${{ secrets.REPO_TOKEN }}@github.com/AbhishekJain1999/DemoPlugin.git HEAD:refs/tags/$NEW_TAG
           echo "::set-output name=new_tag::$NEW_TAG"
 
       - name: Output new tag
