@@ -30,7 +30,7 @@ jobs:
           elif echo "$COMMIT_MESSAGE" | grep -q "\[update\]"; then
             UPGRADE_TYPE="major"
           else
-            UPGRADE_TYPE="patch" # Default to patch if no keywords found
+            UPGRADE_TYPE="patch" # Default to patch if no keywords are found
           fi
           echo "::set-output name=upgrade_type::$UPGRADE_TYPE"
 
@@ -39,7 +39,64 @@ jobs:
         run: |
           NEW_TAG=$(echo ${{ steps.get_tag.outputs.latest_tag }} | awk -F. -v upgrade_type=${{ steps.upgrade_type.outputs.upgrade_type }} '{
             if (upgrade_type == "major") {
-              if($2==9){
+              if($2 == 9){
+                print ($1+1) "." 0 "." 0
+              } else {
+                print $1 "." ($2+1) "." 0
+              }
+            } else {
+              print $1 "." $2 "." ($3+1)
+            }
+          }')
+          git tag $NEW_TAG
+          git push origin $NEW_TAG
+          echo "::set-output name=new_tag::$NEW_TAG"
+
+      - name: Output new tag
+        run: echo "Created new tag ${{ steps.create_tag.outputs.new_tag }}"
+         
+name: Create Tag on Merge
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  create_tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get the latest tag
+        id: get_tag
+        run: |
+          git fetch --tags
+          LATEST_TAG=$(git describe --tags --abbrev=0)
+          echo "::set-output name=latest_tag::$LATEST_TAG"
+
+      - name: Determine tag upgrade type
+        id: upgrade_type
+        run: |
+          COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          if echo "$COMMIT_MESSAGE" | grep -q "\[crash\]" || echo "$COMMIT_MESSAGE" | grep -q "\[bug\]"; then
+            UPGRADE_TYPE="minor"
+          elif echo "$COMMIT_MESSAGE" | grep -q "\[update\]"; then
+            UPGRADE_TYPE="major"
+          else
+            UPGRADE_TYPE="patch" # Default to patch if no keywords are found
+          fi
+          echo "::set-output name=upgrade_type::$UPGRADE_TYPE"
+
+      - name: Create new tag
+        id: create_tag
+        run: |
+          NEW_TAG=$(echo ${{ steps.get_tag.outputs.latest_tag }} | awk -F. -v upgrade_type=${{ steps.upgrade_type.outputs.upgrade_type }} '{
+            if (upgrade_type == "major") {
+              if($2 == 9){
                 print ($1+1) "." 0 "." 0
               } else {
                 print $1 "." ($2+1) "." 0
