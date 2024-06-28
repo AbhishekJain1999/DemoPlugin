@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main # Trigger when a push happens to the master branch
-
+permissions:
+  contents: write
 
 env:
   GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }} # Set the environment variable
