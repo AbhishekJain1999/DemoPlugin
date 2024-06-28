@@ -1,8 +1,6 @@
 # demo_plugin
 
-A new Flutter project.
-
-## Getting Started
+A new Flutter project.Hi, I
 
 This project is a starting point for a Flutter
 [plug-in package](https://flutter.dev/developing-packages/),
