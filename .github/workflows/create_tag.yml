@@ -74,5 +74,13 @@ jobs:
           draft: false
           prerelease: false
 
+      - name: Push changes to dev branch
+        run: |
+          git config --global user.email "your-bot-email@example.com"
+          git config --global user.name "Your Bot Name"
+          git checkout dev
+          git merge main 
+          git push https://${GITHUB_TOKEN}@github.com/AbhishekJain1999/DemoPlugin.git dev 
+
       - name: Output new tag
         run: echo "Created new tag and release ${{ steps.create_tag.outputs.new_tag }}"
