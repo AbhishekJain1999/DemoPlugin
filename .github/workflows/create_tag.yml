@@ -44,12 +44,12 @@ jobs:
           NEW_TAG=$(echo ${{ steps.get_tag.outputs.latest_tag }} | awk -F. -v upgrade_type=${{ steps.upgrade_type.outputs.upgrade_type }} '{
             if (upgrade_type == "major") {
               if($2 == 9){
-                print ($1+1) "." 0 "." 0
+                print "v" ($1+1) "." 0 "." 0
               } else {
-                print $1 "." ($2+1) "." 0
+                print "v" $1 "." ($2+1) "." 0
               }
             } else {
-              print $1 "." $2 "." ($3+1)
+              print "v" $1 "." $2 "." ($3+1)
             }
           }')
           git tag $NEW_TAG
