@@ -1,10 +1,9 @@
 name: Create Tag on Merge
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
-      - main
+      - main # Trigger when a push happens to the master branch
 
 jobs:
   create_tag:
