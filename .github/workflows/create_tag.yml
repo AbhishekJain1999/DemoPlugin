@@ -48,6 +48,7 @@ jobs:
               print $1 "." $2 "." ($3+1)
             }
           }')
+          git tag $NEW_TAG
           # ... (rest of the code)
           git push origin $NEW_TAG --follow-tags # Add --follow-tags for lightweight tags
           # Use the secret for authentication
