@@ -29,9 +29,9 @@ jobs:
         id: upgrade_type
         run: |
           COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-          if echo "$COMMIT_MESSAGE" | grep -iq "^\[crash\]" || echo "$COMMIT_MESSAGE" | grep -iq "^\[bug\]"; then
+          if echo "$COMMIT_MESSAGE" | grep -iq "\[crash\]" || echo "$COMMIT_MESSAGE" | grep -iq "\[bug\]"; then
             UPGRADE_TYPE="minor"
-          elif echo "$COMMIT_MESSAGE" | grep -iq "^\[update\]"; then
+          elif echo "$COMMIT_MESSAGE" | grep -iq "\[update\]"; then
             UPGRADE_TYPE="major"
           else
             UPGRADE_TYPE="patch" # Default to patch if no keywords are found
